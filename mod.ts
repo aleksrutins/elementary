@@ -7,7 +7,7 @@ export default <State, Message extends [string, unknown]>(
         string,
         (name: string, oldValue: string, newValue: string) => Message,
     ][] = [],
-): typeof Element => {
+): typeof HTMLElement => {
     const elementClass = class extends HTMLElement {
         static observedAttributes = observedAttributes.map((it) => it[0]);
 
