@@ -1,3 +1,15 @@
+/**
+ * Creates a custom HTML element class.
+ *
+ * @template State - The type of the state object.
+ * @template Message - The type of the message tuple, where the first element is a string and the second element is unknown.
+ * @param {string} name - The name of the custom element.
+ * @param {(self: Element, state: State) => string} template - A function that returns the HTML template as a string, given the current state.
+ * @param {(self: Element) => State} initialState - A function that returns the initial state.
+ * @param {(self: Element, state: State, message: Message) => State} update - A function that updates the state based on a message.
+ * @param {[string, (name: string, oldValue: string, newValue: string) => Message][]} [observedAttributes=[]] - An array of tuples where the first element is the attribute name and the second element is a function that returns a message to dispatch when the attribute changes.
+ * @returns {typeof HTMLElement} - The custom HTML element class.
+ */
 export default <State, Message extends [string, unknown]>(
     name: string,
     template: (self: Element, state: State) => string,
@@ -5,8 +17,8 @@ export default <State, Message extends [string, unknown]>(
     update: (self: Element, state: State, message: Message) => State,
     observedAttributes: [
         string,
-        (name: string, oldValue: string, newValue: string) => Message,
-    ][] = [],
+        (name: string, oldValue: string, newValue: string) => Message
+    ][] = []
 ): typeof HTMLElement => {
     const elementClass = class extends HTMLElement {
         static observedAttributes = observedAttributes.map((it) => it[0]);
@@ -24,14 +36,14 @@ export default <State, Message extends [string, unknown]>(
                         .split(/\s*,\s*/)
                         .map((str) => str.split(/\s*=>\s*/)) as [
                         keyof ElementEventMap,
-                        Message[0],
-                    ][],
+                        Message[0]
+                    ][]
                 );
 
                 events.forEach((message, event) =>
                     el.addEventListener(event, (ev) =>
-                        this.dispatch([message, ev] as Message),
-                    ),
+                        this.dispatch([message, ev] as Message)
+                    )
                 );
             });
         }
@@ -44,7 +56,7 @@ export default <State, Message extends [string, unknown]>(
         attributeChangedCallback(
             name: string,
             oldValue: string,
-            newValue: string,
+            newValue: string
         ) {
             const handler = observedAttributes.find((it) => it[0] == name);
             if (handler) {
