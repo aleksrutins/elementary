@@ -1,12 +1,15 @@
 {
     "name": "@asr/elementary",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "imports": {
         "@std/assert": "jsr:@std/assert@1"
     },
     "exports": "./mod.ts",
     "compilerOptions": {
-        "lib": ["ES2020", "DOM"]
+        "lib": [
+            "ES2020",
+            "DOM"
+        ]
     },
     "tasks": {
         "build": "deno run -A npm:esbuild mod.ts --minify --outfile=dist/elementary.min.js"
