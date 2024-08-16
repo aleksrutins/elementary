@@ -1,13 +1,13 @@
 /**
- * Creates a custom HTML element class.
+ * Creates a custom HTML element.
  *
  * @template State - The type of the state object.
- * @template Message - The type of the message tuple, where the first element is a string and the second element is unknown.
+ * @template Message - The type of the message tuple, where the first element is a string and the second element is any user data (in the case of messages dispatched from `x-on`, this second element should be a browser event type).
  * @param {string} name - The name of the custom element.
  * @param {(self: Element, state: State) => string} template - A function that returns the HTML template as a string, given the current state.
  * @param {(self: Element) => State} initialState - A function that returns the initial state.
  * @param {(self: Element, state: State, message: Message) => State} update - A function that updates the state based on a message.
- * @param {[string, (name: string, oldValue: string, newValue: string) => Message][]} [observedAttributes=[]] - An array of tuples where the first element is the attribute name and the second element is a function that returns a message to dispatch when the attribute changes.
+ * @param {[string, (name: string, oldValue: string, newValue: string) => Message][]} observedAttributes - An array of tuples where the first element is the attribute name and the second element is a function that returns a message to dispatch when the attribute changes.
  * @returns {typeof HTMLElement} - The custom HTML element class.
  */
 export default <State, Message extends [string, unknown]>(
